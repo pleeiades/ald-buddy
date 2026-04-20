@@ -1,4 +1,3 @@
-import jsPDF from 'jspdf';
 import type { Board, Cell } from './types';
 
 const A4_W_MM = 297; // landscape
@@ -48,10 +47,11 @@ export async function exportBoardToPdf(board: Board): Promise<void> {
   const pageW = orientation === 'landscape' ? A4_W_MM : A4_H_MM;
   const pageH = orientation === 'landscape' ? A4_H_MM : A4_W_MM;
 
-  const [doc, logo] = await Promise.all([
-    Promise.resolve(new jsPDF({ orientation, unit: 'mm', format: 'a4' })),
+  const [{ default: jsPDF }, logo] = await Promise.all([
+    import('jspdf'),
     loadLogoForPdf(),
   ]);
+  const doc = new jsPDF({ orientation, unit: 'mm', format: 'a4' });
 
   const gridW = pageW - MARGIN_MM * 2;
   const gridH = pageH - MARGIN_MM * 2 - HEADER_MM - FOOTER_MM;
