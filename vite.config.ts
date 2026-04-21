@@ -41,8 +41,8 @@ export default defineConfig({
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2}'],
         runtimeCaching: [
           {
-            // ARASAAC pictogram images — never change for a given ID, cache aggressively.
-            urlPattern: /^https:\/\/static\.arasaac\.org\/pictograms\/.*/i,
+            // ARASAAC pictogram images via local proxy — never change for a given ID, cache aggressively.
+            urlPattern: ({ url }: { url: URL }) => url.pathname.startsWith('/api/pictogram-proxy'),
             handler: 'CacheFirst',
             options: {
               cacheName: 'arasaac-images',

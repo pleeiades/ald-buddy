@@ -88,7 +88,8 @@ export default function ArasaacPicker({ initialQuery, onSelect }: Props) {
   const handlePick = async (result: ArasaacResult) => {
     setLoadingId(result._id);
     try {
-      const dataUrl = await fetchImageAsDataUrl(IMAGE_URL(result._id));
+      const proxyUrl = `/api/pictogram-proxy?url=${encodeURIComponent(IMAGE_URL(result._id))}`;
+      const dataUrl = await fetchImageAsDataUrl(proxyUrl);
       onSelect(dataUrl, result._id);
     } catch {
       alert('Could not load this image. Please try another or use the Upload tab.');
